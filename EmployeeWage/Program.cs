@@ -4,9 +4,10 @@ class EmployeeWage
     static void Main(string[] args)
     {
         Console.WriteLine("Calculate Daily Employee Wage");
-        int WAGE_PER__HOUR = 20;
+        int WAGE_PER_HOUR = 20;
         int total_hour = 0;
-        for (int day = 0; day < 30; day++)
+        int day;
+        for (day= 0; day < 20; day++)
         {
             Random random = new Random();
             int check_Attandance = random.Next(0, 2);
@@ -25,7 +26,7 @@ class EmployeeWage
                             break;
                         case 1:
                             Console.WriteLine("Today Employee Works Full time");
-                            total_hour+= 8;
+                            total_hour += 8;
                             break;
                         default:
                             break;
@@ -36,11 +37,14 @@ class EmployeeWage
                 default:
                     break;
             }
-            int Wage = total_hour * WAGE_PER__HOUR;
-            Console.WriteLine("Employee Daily Wage" + " " + Wage);
-
+            if (total_hour == 100)
+                break;
         }
-    }
+        int Wage = total_hour * WAGE_PER_HOUR;
+        Console.WriteLine("Employee Monthly Wage" + " " + Wage);
+        Console.WriteLine("Total_hour" + " " + total_hour);
+        Console.WriteLine("Total days" + " " + day);
 
+    }
 }
 
