@@ -1,12 +1,15 @@
 ﻿using System;
-
-namespace EmployeeWage
+class EmployeeWage
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+        Console.WriteLine("Check Employee Present or not");
+        int IS_PRESENT = 1;
+        Random random = new Random();
+        int check_Attandance = random.Next(0, 2);
+        if (check_Attandance == IS_PRESENT)
+            Console.WriteLine("Yes ! Employee is Present");
+        else
+            Console.WriteLine("NO ! Employess is Not Present");
     }
 }
