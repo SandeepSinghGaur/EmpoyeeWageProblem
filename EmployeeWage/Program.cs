@@ -62,17 +62,36 @@ public class EmpWageBuilder : IComputeEmpWage
         return this.companyToEmpWageMap[company].totalWages;
     }
 }
-
-class Program {
-    static void Main(string[] args)
+class AddMultipleCompaniesInList
+{
+    private LinkedList<CompanyEmpWage> companyEmpWageList;
+    private Dictionary<string, CompanyEmpWage> companyToEmpWageMap;
+    public AddMultipleCompaniesInList()
     {
-        EmpWageBuilder empWageBuilder = new EmpWageBuilder();
-        empWageBuilder.AddCompanyWage("Dmart", 20, 2, 10);
-        empWageBuilder.AddCompanyWage("Nokia", 15, 2, 10);
-        empWageBuilder.ComputeEmpWage();
-        Console.WriteLine("Total Wage for Dmart Company: " + empWageBuilder.getTotalWage("Dmart"));
-        Console.WriteLine("Total Wage for Nokia Company: " + empWageBuilder.getTotalWage("Nokia"));
+        this.companyEmpWageList = new LinkedList<CompanyEmpWage>();
+        this.companyToEmpWageMap = new Dictionary<string, CompanyEmpWage>();
     }
+
 }
 
+class Program
+{
+    static void Main(string[] args)
+    {
+
+        EmpWageBuilder empWageBuilder = new EmpWageBuilder();
+        for (int number = 0; number < 5; number++)
+        {
+            string company = Console.ReadLine();
+            int empRatePerHours = Convert.ToInt32(Console.ReadLine());
+            int noOfWorkingDays = Convert.ToInt32(Console.ReadLine());
+            int maxHourPerMonths = Convert.ToInt32(Console.ReadLine());
+            empWageBuilder.AddCompanyWage(company, empRatePerHours, noOfWorkingDays, maxHourPerMonths);
+            empWageBuilder.ComputeEmpWage();
+            Console.WriteLine("Total Wage for  Company: " + empWageBuilder.getTotalWage(company));
+        }
+
+    }
+
+}
 
