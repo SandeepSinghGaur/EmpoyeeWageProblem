@@ -8,20 +8,20 @@ public class EmpWageBuilder : IComputeEmpWage
     public const int IS_FULL_TIME = 2;
     private LinkedList<CompanyEmpWage> companyEmpWageList;
     private Dictionary<string, CompanyEmpWage> companyToEmpWageMap;
-    private LinkedList<CompanyEmpWage> DailyEmpWageList;
+   
 
     public EmpWageBuilder()
     {
         this.companyEmpWageList = new LinkedList<CompanyEmpWage>();
         this.companyToEmpWageMap = new Dictionary<string, CompanyEmpWage>();
-        this.DailyEmpWageList = new LinkedList<CompanyEmpWage>();
+        
     }
     public void AddCompanyWage(string company, int empRatePerHour, int noOfWorkingDay, int maxHourPerMonth)
     {
         CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour, noOfWorkingDay, maxHourPerMonth);
         this.companyEmpWageList.AddLast(companyEmpWage);
         this.companyToEmpWageMap.Add(company, companyEmpWage);
-        this.DailyEmpWageList.AddLast(companyEmpWage);
+        
     }
 
     public  void ComputeEmpWage()
@@ -30,10 +30,7 @@ public class EmpWageBuilder : IComputeEmpWage
         {
             companyEmpWage.SetTotalEmpWage(ComputeEmpWage(companyEmpWage));
         }
-        foreach(CompanyEmpWage companyEmpWage1 in this.DailyEmpWageList)
-        {
-            companyEmpWage1.DailyEmpWage(ComputeEmpWage(companyEmpWage1));
-        }
+        
     }
     private int ComputeEmpWage(CompanyEmpWage companyEmpWage)
     {
@@ -55,7 +52,6 @@ public class EmpWageBuilder : IComputeEmpWage
                     emphours = 0;
                     break;
             }
-            Console.WriteLine("Daily Wages" + " " + emphours * 20);
             totalEmpHour += emphours;
             Console.WriteLine("Days:"+" "+ totalWorkingDay +" "+ "Emp Hours : " + emphours);
             }
@@ -70,17 +66,7 @@ public class EmpWageBuilder : IComputeEmpWage
         return this.companyToEmpWageMap[company].totalWages;
     }
 }
-class AddMultipleCompaniesInList
-{
-    private LinkedList<CompanyEmpWage> companyEmpWageList;
-    private Dictionary<string, CompanyEmpWage> companyToEmpWageMap;
-    public AddMultipleCompaniesInList()
-    {
-        this.companyEmpWageList = new LinkedList<CompanyEmpWage>();
-        this.companyToEmpWageMap = new Dictionary<string, CompanyEmpWage>();
-    }
 
-}
 
 class Program
 {

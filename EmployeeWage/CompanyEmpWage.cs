@@ -32,10 +32,6 @@ namespace EmployeeWage
         {
             this.totalWages = totalWages;
         }
-        public void DailyEmpWage(int dailyWages)
-        {
-            this.dailyWages = dailyWages;
-        }
         public string toString()
         {
             return "Total Emp Wage for Company: " + this.company + "is: " + this.totalWages;
