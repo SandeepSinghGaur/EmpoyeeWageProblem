@@ -18,6 +18,7 @@ namespace EmployeeWage
         public int noOfWorkingDays;
         public int maxHourPerMonth;
         public int totalWages;
+        public int dailyWages;
         public CompanyEmpWage(string company,int empRatePerHour,int noOfWorkingDays,int maxHourPerMonth)
         {
             this.company = company;
@@ -30,6 +31,10 @@ namespace EmployeeWage
         public void SetTotalEmpWage(int totalWages)
         {
             this.totalWages = totalWages;
+        }
+        public void DailyEmpWage(int dailyWages)
+        {
+            this.dailyWages = dailyWages;
         }
         public string toString()
         {

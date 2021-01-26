@@ -8,17 +8,20 @@ public class EmpWageBuilder : IComputeEmpWage
     public const int IS_FULL_TIME = 2;
     private LinkedList<CompanyEmpWage> companyEmpWageList;
     private Dictionary<string, CompanyEmpWage> companyToEmpWageMap;
+    private LinkedList<CompanyEmpWage> DailyEmpWageList;
 
     public EmpWageBuilder()
     {
         this.companyEmpWageList = new LinkedList<CompanyEmpWage>();
         this.companyToEmpWageMap = new Dictionary<string, CompanyEmpWage>();
+        this.DailyEmpWageList = new LinkedList<CompanyEmpWage>();
     }
     public void AddCompanyWage(string company, int empRatePerHour, int noOfWorkingDay, int maxHourPerMonth)
     {
         CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour, noOfWorkingDay, maxHourPerMonth);
         this.companyEmpWageList.AddLast(companyEmpWage);
         this.companyToEmpWageMap.Add(company, companyEmpWage);
+        this.DailyEmpWageList.AddLast(companyEmpWage);
     }
 
     public  void ComputeEmpWage()
@@ -26,6 +29,10 @@ public class EmpWageBuilder : IComputeEmpWage
         foreach(CompanyEmpWage companyEmpWage in this.companyEmpWageList)
         {
             companyEmpWage.SetTotalEmpWage(ComputeEmpWage(companyEmpWage));
+        }
+        foreach(CompanyEmpWage companyEmpWage1 in this.DailyEmpWageList)
+        {
+            companyEmpWage1.DailyEmpWage(ComputeEmpWage(companyEmpWage1));
         }
     }
     private int ComputeEmpWage(CompanyEmpWage companyEmpWage)
@@ -48,6 +55,7 @@ public class EmpWageBuilder : IComputeEmpWage
                     emphours = 0;
                     break;
             }
+            Console.WriteLine("Daily Wages" + " " + emphours * 20);
             totalEmpHour += emphours;
             Console.WriteLine("Days:"+" "+ totalWorkingDay +" "+ "Emp Hours : " + emphours);
             }
@@ -79,19 +87,16 @@ class Program
     static void Main(string[] args)
     {
 
+
         EmpWageBuilder empWageBuilder = new EmpWageBuilder();
-        for (int number = 0; number < 5; number++)
-        {
-            string company = Console.ReadLine();
-            int empRatePerHours = Convert.ToInt32(Console.ReadLine());
-            int noOfWorkingDays = Convert.ToInt32(Console.ReadLine());
-            int maxHourPerMonths = Convert.ToInt32(Console.ReadLine());
-            empWageBuilder.AddCompanyWage(company, empRatePerHours, noOfWorkingDays, maxHourPerMonths);
-            empWageBuilder.ComputeEmpWage();
-            Console.WriteLine("Total Wage for  Company: " + empWageBuilder.getTotalWage(company));
-        }
+        empWageBuilder.AddCompanyWage("Dmart", 20, 2, 10);
+        empWageBuilder.AddCompanyWage("Nokia", 15, 2, 10);
+        empWageBuilder.ComputeEmpWage();
+        Console.WriteLine("Total Wage for Dmart Company: " + empWageBuilder.getTotalWage("Dmart"));
+        Console.WriteLine("Total Wage for Nokia Company: " + empWageBuilder.getTotalWage("Nokia"));
+    }
 
     }
 
-}
+
 
