@@ -1,45 +1,77 @@
-﻿using System;
-class EmployeeWage
-{
-    public static void Monthly_Wage(string company_name,int WAGE_PER_HOUR)
-    {
-        for (int day = 0; day < 30; day++)
-        {
-            Random random = new Random();
-            int check_Attandance = random.Next(0, 2);
-            int check_hour = random.Next(0, 2);
-            switch (check_Attandance)
-            {
-                case 0:
-                    Console.WriteLine("Employee is not Present!");
-                    break;
-                case 1:
-                    Console.WriteLine("Employee Present!");
-                    switch (check_hour)
-                    {
-                        case 0:
-                            Console.WriteLine("Employee Present Half Time");
-                            total_hour += 4;
-                            break;
-                        case 1:
-                            Console.WriteLine("Employee Present Full Time");
-                            total_hour += 8;
-                            break;
+﻿using EmployeeWage;
+using System;
+using System.Collections.Generic;
 
-                    }
+public class EmpWageBuilder : IComputeEmpWage
+{
+    public const int IS_PART_TIME = 1;
+    public const int IS_FULL_TIME = 2;
+    private LinkedList<CompanyEmpWage> companyEmpWageList;
+    private Dictionary<string, CompanyEmpWage> companyToEmpWageMap;
+
+    public EmpWageBuilder()
+    {
+        this.companyEmpWageList = new LinkedList<CompanyEmpWage>();
+        this.companyToEmpWageMap = new Dictionary<string, CompanyEmpWage>();
+    }
+    public void AddCompanyWage(string company, int empRatePerHour, int noOfWorkingDay, int maxHourPerMonth)
+    {
+        CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour, noOfWorkingDay, maxHourPerMonth);
+        this.companyEmpWageList.AddLast(companyEmpWage);
+        this.companyToEmpWageMap.Add(company, companyEmpWage);
+    }
+
+    public  void ComputeEmpWage()
+    {
+        foreach(CompanyEmpWage companyEmpWage in this.companyEmpWageList)
+        {
+            companyEmpWage.SetTotalEmpWage(ComputeEmpWage(companyEmpWage));
+        }
+    }
+    private int ComputeEmpWage(CompanyEmpWage companyEmpWage)
+    {
+        int emphours = 0, totalEmpHour = 0, totalWorkingDay = 0;
+        while(totalEmpHour<=companyEmpWage.maxHourPerMonth && totalWorkingDay < companyEmpWage.noOfWorkingDays)
+        {
+            totalWorkingDay++;
+            Random random = new Random();
+            int empCheck = random.Next(0, 3);
+            switch (empCheck)
+            {
+                case IS_PART_TIME:
+                    emphours = 4;
+                    break;
+                case IS_FULL_TIME:
+                    emphours = 8;
                     break;
                 default:
+                    emphours = 0;
                     break;
             }
+            totalEmpHour += emphours;
+            Console.WriteLine("Days:"+" "+ totalWorkingDay +" "+ "Emp Hours : " + emphours);
+            }
+        return totalEmpHour * companyEmpWage.empRatePerHour;
+
         }
-        Console.WriteLine("Employee is Working "+" "+company_name+"in this Company);
-        Console.WriteLine("Employee Monthly Wage" + " " + total_hour * WAGE_PER_HOUR);
+
+
+    
+    public int getTotalWage(string company)
+    {
+        return this.companyToEmpWageMap[company].totalWages;
     }
+}
+
+class Program {
     static void Main(string[] args)
     {
-        string company_name = Console.ReadLine();
-        int WAGE_PER_HOUR = Convert.ToInt32(ReadLine());
-        Monthly_Wage(company_name,WAGE_PER_HOUR);
+        EmpWageBuilder empWageBuilder = new EmpWageBuilder();
+        empWageBuilder.AddCompanyWage("Dmart", 20, 2, 10);
+        empWageBuilder.AddCompanyWage("Nokia", 15, 2, 10);
+        empWageBuilder.ComputeEmpWage();
+        Console.WriteLine("Total Wage for Dmart Company: " + empWageBuilder.getTotalWage("Dmart"));
+        Console.WriteLine("Total Wage for Nokia Company: " + empWageBuilder.getTotalWage("Nokia"));
     }
 }
 
